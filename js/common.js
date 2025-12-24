@@ -19,3 +19,18 @@ function checkLogin() {
     }, 1500);
   }
 }
+
+// 抽取渲染函数（渲染用户名）
+function renderUsername() {
+  const username = localStorage.getItem('username')
+  document.querySelector('.username').innerText = username
+}
+
+// 抽取退出登录函数
+function registerLogout() {
+  document.querySelector('#logout').addEventListener('click', () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('username')
+    location.href = './login.html'
+  })
+}
