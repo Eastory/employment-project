@@ -1,4 +1,30 @@
 axios.defaults.baseURL = "http://ajax-api.itheima.net";
+
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    config.headers.Authorization = token
+  }
+  return config
+}, (error) => {
+  return Promise.reject(error)
+})
+
+axios.interceptors.response.use((response) => {
+  return response
+}, (error) => {
+  // 处理token失效
+  if (error.response.status === 401) {
+    showToast('登录过期，请重新登录')
+    localStorage.removeItem('token')
+    localStorage.removeItem('username')
+    setTimeout(() => {
+      location.href = './login.html'
+    }, 1500);
+  }
+  return Promise.reject(error)
+})
+
 // 抽取轻提示函数
 function showToast(msg) {
   const toastDom = document.querySelector(".my-toast");
