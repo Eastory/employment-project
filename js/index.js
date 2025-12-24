@@ -15,7 +15,7 @@ async function getData() {
       // }
     })
 
-    const overview = res.data.data.overview
+    const overview = res.data.overview
     Object.keys(overview).forEach(key => {
       document.querySelector(`.${key}`).innerText = overview[key]
     });

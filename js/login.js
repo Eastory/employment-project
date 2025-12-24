@@ -16,12 +16,12 @@ document.querySelector("#btn-login").addEventListener("click", async () => {
   // 提交数据
   try {
     const res = await axios.post("/login", { username, password });
-    showToast(res.data.message);
+    showToast(res.message);
     console.log(res);
     
     // 缓存数据
-    localStorage.setItem('token', res.data.data.token)
-    localStorage.setItem('username', res.data.data.username)
+    localStorage.setItem('token', res.data.token)
+    localStorage.setItem('username', res.data.username)
 
     // 跳转首页
     setTimeout(() => {    

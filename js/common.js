@@ -11,7 +11,7 @@ axios.interceptors.request.use((config) => {
 })
 
 axios.interceptors.response.use((response) => {
-  return response
+  return response.data
 }, (error) => {
   // 处理token失效
   if (error.response.status === 401) {
