@@ -1,0 +1,1 @@
+axios.default.baceURL = 'https://hmajax.itheima.net'
