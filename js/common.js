@@ -8,5 +8,14 @@ function showToast(msg) {
   document.querySelector(".toast-body").innerText = msg;
   toast.show();
 }
-// showToast("hahahahaha");
 
+// 抽取校验函数 判断token
+function checkLogin() {
+  const token = localStorage.getItem('token')
+  if (!token) {
+    showToast('请先登录')
+    setTimeout(() => {
+      location.href = './login.html'
+    }, 1500);
+  }
+}
