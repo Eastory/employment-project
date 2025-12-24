@@ -1,5 +1,4 @@
-axios.defaults.baseURL = "https://hmajax.itheima.net";
-
+axios.defaults.baseURL = "http://ajax-api.itheima.net";
 // 抽取轻提示函数
 function showToast(msg) {
   const toastDom = document.querySelector(".my-toast");
