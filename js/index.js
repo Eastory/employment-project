@@ -4,32 +4,23 @@ checkLogin()
 renderUsername()
 // 退出登录功能
 registerLogout()
+// 渲染顶部数据
+function renderOverview(overview) {
+  Object.keys(overview).forEach(key => {
+    document.querySelector(`.${key}`).innerText = overview[key]
+  });
+}
+
 // 获取统计数据
 async function getData() {
-  try {
+
     const res = await axios({
       url:'/dashboard',
-      // 在请求头上添加token已配置在请求拦截器
-      // headers: {
-      //   Authorization: localStorage.getItem('token')
-      // }
     })
+    console.log(res);
 
-    const overview = res.data.overview
-    Object.keys(overview).forEach(key => {
-      document.querySelector(`.${key}`).innerText = overview[key]
-    });
+    const {overview} = res.data
 
-  }catch(error) {
-    // 判断token失效已配置在响应拦截器
-    // if (error.response.status === 401) {
-    //   showToast('登录过期，请重新登录')
-    //   localStorage.removeItem('token')
-    //   localStorage.removeItem('username')
-    //   setTimeout(() => {
-    //     location.href = './login.html'
-    //   }, 1500);
-    // }
-  }
+    renderOverview(overview)
 }
 getData()
