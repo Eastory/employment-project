@@ -16,8 +16,8 @@ function renderYearSalary(year) {
 
   const option = {
     title: {
-      text: '2022薪资走势',
-      top: 10,
+      text: '2022年薪资走势',
+      top: 15,
       left: 10
     },
     tooltip: {
@@ -92,6 +92,56 @@ function renderYearSalary(year) {
   myChart.setOption(option)
 
 }
+// 渲染班级薪资分布
+function renderClassSalary(salaryData) {
+  const myChart = echarts.init(document.querySelector('#salary'))
+
+  const option = {
+    title: {
+      text: '班级薪资分布',
+      top: 15,
+      left: 10
+    },
+    tooltip: {
+      trigger: 'item'
+    },
+    legend: {
+      bottom: '5%',
+      left: 'center'
+    },
+    series: [
+      {
+        name: '班级薪资分布',
+        type: 'pie',
+        radius: ['50%', '65%'],
+        itemStyle: {
+          borderRadius: 10,
+          borderColor: '#fff',
+          borderWidth: 2
+        },
+        label: {
+          show: false,
+          position: 'center'
+        },
+        labelLine: {
+          show: false
+        },
+        emphasis: {
+          label: {
+            show: true,
+            fontSize: 25,
+            fontWeight: 'bold'
+          }
+        },
+        avoidLabelOverlap: false,
+        data: salaryData.map(ele =>  ({value: ele.b_count + ele.g_count, name: ele.label}) )
+      }
+    ],
+    color: ['#FCA42F','#5799F8','#F17B70','#36C09D']
+  };
+
+  myChart.setOption(option)
+}
 
 // 获取统计数据
 async function getData() {
@@ -101,9 +151,10 @@ async function getData() {
     })
     console.log(res);
 
-    const {overview, year} = res.data
+    const {overview, year, salaryData} = res.data
 
     renderOverview(overview)
     renderYearSalary(year)
+    renderClassSalary(salaryData)
 }
 getData()
