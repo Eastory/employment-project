@@ -36,8 +36,10 @@ const keyArr = ['name', 'age', 'group', 'hope_salary', 'salary']
 // Modal 表单中需要转换为int类型的数据
 const keyInt = ['age', 'gender', 'group', 'hope_salary', 'salary']
 
-// 清空 modal
-function clearModal() {
+// 重置 modal
+function resetModal() {
+  document.querySelector('.modal-title').innerText = '添加学员'
+
   keyArr.forEach(ele => {
     document.querySelector(`[name ="${ele}"]`).value = ''
   })
@@ -49,7 +51,7 @@ function clearModal() {
 
 // 新增学员时打开 Modal
 document.querySelector('#openModal').addEventListener('click', async function() {
-  clearModal()
+  resetModal()
   modal.show()
 })
 
