@@ -4,11 +4,32 @@ checkLogin()
 renderUsername()
 // 退出登录功能
 registerLogout()
+// 获取数据
+async function getData() {
+  const res = await axios.get('/students')
+  console.log(res.data);
 
-// 新增学生数据
+  document.querySelector('.total').innerText = res.data.length
+  document.querySelector('.list').innerHTML = res.data.map(ele => 
+    `<tr>
+      <td>${ele.name}</td>
+      <td>${ele.age}</td>
+      <td>${ele.gender === 0 ? '男' : '女'}</td>
+      <td>第${ele.group}组</td>
+      <td>${ele.hope_salary}</td>
+      <td>${ele.salary}</td>
+      <td>${ele.province + ele.city + ele.area}</td>
+      <td data-id="${ele.id}">
+        <a href="javascript:;" class="text-success mr-3"><i class="bi bi-pen"></i></a>
+        <a href="javascript:;" class="text-danger"><i class="bi bi-trash"></i></a>
+      </td>
+    </tr>`).join('')
+}
+getData()
+
+// 打开Modal
 const modalDom = document.querySelector('#modal')
 const modal = new bootstrap.Modal(modalDom)
-// 打开Modal
 document.querySelector('#openModal').addEventListener('click', async function() {
   modal.show()
 
@@ -36,7 +57,8 @@ document.querySelector('#openModal').addEventListener('click', async function() 
   })
   
 })
-// 点击确定，提交数据
+
+// 绑定确定按钮事件
 document.querySelector('#submit').addEventListener('click', function () {
   addStudent()
 })
@@ -62,24 +84,14 @@ async function addStudent() {
   }
 }
 
-async function getData() {
-  const res = await axios.get('/students')
-  console.log(res.data);
-
-  document.querySelector('.total').innerText = res.data.length
-  document.querySelector('.list').innerHTML = res.data.map(ele => 
-    `<tr>
-      <td>${ele.name}</td>
-      <td>${ele.age}</td>
-      <td>${ele.gender === 0 ? '男' : '女'}</td>
-      <td>第${ele.group}组</td>
-      <td>${ele.hope_salary}</td>
-      <td>${ele.salary}</td>
-      <td>${ele.province + ele.city + ele.area}</td>
-      <td data-id="${ele.id}">
-        <a href="javascript:;" class="text-success mr-3"><i class="bi bi-pen"></i></a>
-        <a href="javascript:;" class="text-danger"><i class="bi bi-trash"></i></a>
-      </td>
-    </tr>`).join('')
+// 绑定编辑和删除点击事件
+document.querySelector('.list').addEventListener('click', function(e) {
+  if (e.target.classList.contains('bi-trash')) {
+    deleteStudent(e.target.parentNode.parentNode.dataset.id)
+  }
+})
+// 删除学生数据
+async function deleteStudent(id) {
+  await axios.delete(`students/${id}`)
+  getData()
 }
-getData()
