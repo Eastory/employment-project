@@ -28,6 +28,7 @@ axios.interceptors.response.use((response) => {
 // 抽取轻提示函数
 function showToast(msg) {
   const toastDom = document.querySelector(".my-toast");
+  toastDom.style.zIndex = 1100 // 让他显示在新增学生数据的Modal上面
   // 实例化toast组件
   const toast = new bootstrap.Toast(toastDom);
   // 修改内容并显示
