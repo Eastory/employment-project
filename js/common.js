@@ -21,6 +21,9 @@ axios.interceptors.response.use((response) => {
     setTimeout(() => {
       location.href = './login.html'
     }, 1500);
+  // 处理新增学员或修改学员信息时的数据格式错误
+  } else if (error.response.status === 422) {
+    showToast(error.response.data.detail[0].field + ' ' + error.response.data.detail[0].message)
   }
   return Promise.reject(error)
 })
