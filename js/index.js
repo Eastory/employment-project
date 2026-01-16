@@ -224,7 +224,7 @@ function renderGroupSalary(groupData, groupNumber = 1) {
 
   myChart.setOption(option)
 }
-// 渲染那女薪资分布
+// 渲染男女薪资分布
 function renderGenderSalary(salaryData) {
   const myChart = echarts.init(document.querySelector('#gender'))
 
@@ -276,6 +276,201 @@ function renderGenderSalary(salaryData) {
 
   myChart.setOption(option)
 }
+// 渲染籍贯分布
+function renderProvince(provinceData) {
+  const dataset = [{
+                name: '北京',
+                value: 0
+            },
+            {
+                name: '天津',
+                value: 0
+            },
+            {
+                name: '上海',
+                value: 0
+            },
+            {
+                name: '重庆',
+                value: 0
+            },
+            {
+                name: '河北',
+                value: 0
+            },
+            {
+                name: '河南',
+                value: 0
+            },
+            {
+                name: '云南',
+                value: 0
+            },
+            {
+                name: '辽宁',
+                value: 0
+            },
+            {
+                name: '黑龙江',
+                value: 0
+            },
+            {
+                name: '湖南',
+                value: 0
+            },
+            {
+                name: '安徽',
+                value: 0
+            },
+            {
+                name: '山东',
+                value: 0
+            },
+            {
+                name: '新疆',
+                value: 0
+            },
+            {
+                name: '江苏',
+                value: 0
+            },
+            {
+                name: '浙江',
+                value: 0
+            },
+            {
+                name: '江西',
+                value: 0
+            },
+            {
+                name: '湖北',
+                value: 0
+            },
+            {
+                name: '广西',
+                value: 0
+            },
+            {
+                name: '甘肃',
+                value: 0
+            },
+            {
+                name: '山西',
+                value: 0
+            },
+            {
+                name: '内蒙古',
+                value: 0
+            },
+            {
+                name: '陕西',
+                value: 0
+            },
+            {
+                name: '吉林',
+                value: 0
+            },
+            {
+                name: '福建',
+                value: 0
+            },
+            {
+                name: '贵州',
+                value: 0
+            },
+            {
+                name: '广东',
+                value: 0
+            },
+            {
+                name: '青海',
+                value: 0
+            },
+            {
+                name: '西藏',
+                value: 0
+            },
+            {
+                name: '四川',
+                value: 0
+            },
+            {
+                name: '宁夏',
+                value: 0
+            },
+            {
+                name: '海南',
+                value: 0
+            },
+            {
+                name: '台湾',
+                value: 0
+            },
+            {
+                name: '香港',
+                value: 0
+            },
+            {
+                name: '澳门',
+                value: 0
+            },
+        ]
+  dataset.forEach(ele1 => {
+    const res = provinceData.find(ele2 => ele2.name.includes(ele1.name))
+    if (res)
+      ele1.value = res.value
+  })
+  const myChart = echarts.init(document.querySelector('#map'))
+  const option = {
+    title: {
+      text: '籍贯分布',
+      top: 15,
+      left: 10
+    },
+    visualMap: {
+        min: 0,
+        max: 6,
+        left: 20,
+        top: 'bottom',
+        text: ['高', '低'],
+        inRange: {
+            color: ['#e0ffff', '#006edd'],
+        }
+    },
+    tooltip: {},
+    series: [{
+        name: '学院数量',
+        type: 'map',
+        mapType: 'china',
+        itemStyle: {
+          normal: {
+            borderColor: 'rgba(0, 0, 0, 0.2)',
+            color: '#e0ffff',
+          },
+          emphasis: {
+            areaColor: '#34D39A',
+            shadowBlur: 20,
+            borderWidth: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)',
+          },
+        },
+        label: {
+          normal: { //静态的时候展示样式
+            show: true, //是否显示地图省份得名称
+            textStyle: {
+              color: 'rgba(0,0,0,0.7)',
+              fontSize: 10
+            }
+          },
+          emphasis: { //动态展示的样式
+            color: '#fff',
+          },
+        },
+        data: dataset
+    }, ]
+  }
+  myChart.setOption(option)
+}
 // 获取统计数据
 async function getData() {
 
@@ -284,13 +479,14 @@ async function getData() {
     })
     console.log(res);
 
-    const {overview, year, salaryData, groupData} = res.data
+    const {overview, year, salaryData, groupData, provinceData} = res.data
 
     renderOverview(overview)
     renderYearSalary(year)
     renderClassSalary(salaryData)
     renderGroupSalary(groupData)
     renderGenderSalary(salaryData)
+    renderProvince(provinceData)
 
     document.querySelector('.card-header').addEventListener('click', function(e) {
       if (e.target.tagName !== 'BUTTON' || e.target.classList.contains('btn-blue')) {
