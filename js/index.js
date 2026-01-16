@@ -144,7 +144,7 @@ function renderClassSalary(salaryData) {
 }
 // 渲染每组薪资
 function renderGroupSalary(groupData, groupNumber = 1) {
-  
+
   const myChart = echarts.init(document.querySelector('#lines'))
 
   const option = {
@@ -224,7 +224,58 @@ function renderGroupSalary(groupData, groupNumber = 1) {
 
   myChart.setOption(option)
 }
+// 渲染那女薪资分布
+function renderGenderSalary(salaryData) {
+  const myChart = echarts.init(document.querySelector('#gender'))
 
+  const option = {
+    title: [
+      {
+        text: '男女薪资分布',
+        top: '15',
+        left: '10'
+      },
+      {
+        subtext: '男生',
+        bottom: '49%',
+        left: 'center',
+        subtextStyle: {
+          color: '#333',
+          fontWeight: 'bold'
+        }
+      },
+      {
+        subtext: '女生',
+        bottom: '4%',
+        left: 'center',
+        subtextStyle: {
+          color: '#333',
+          fontWeight: 'bold'
+        }
+      },
+    ],
+    tooltip: {},
+    series: [
+      {
+        name: '男生',
+        type: 'pie',
+        radius: ['30%', '45%'],
+        center: ['50%', '30%'],
+        data: salaryData.map(ele => ({value: ele.b_count, name: ele.label})),
+      },
+      {
+        name: '女生',
+        type: 'pie',
+        radius: ['30%', '45%'],
+        center: ['50%', '75%'],
+        data: salaryData.map(ele => ({value: ele.g_count, name: ele.label})),
+      }
+    ],
+    color: ['#FCA42F','#5799F8','#F17B70','#36C09D']
+  };
+
+  myChart.setOption(option)
+}
 // 获取统计数据
 async function getData() {
 
@@ -239,6 +290,7 @@ async function getData() {
     renderYearSalary(year)
     renderClassSalary(salaryData)
     renderGroupSalary(groupData)
+    renderGenderSalary(salaryData)
 
     document.querySelector('.card-header').addEventListener('click', function(e) {
       if (e.target.tagName !== 'BUTTON' || e.target.classList.contains('btn-blue')) {
